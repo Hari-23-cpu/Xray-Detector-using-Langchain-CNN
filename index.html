@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xray/Scan Analyzer</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <body>
+        <div class="ecg-container">
+        <svg class="ecg" viewBox="0 0 1000 200" preserveAspectRatio = "none">
+            <path class="ecg-path" d="M0,100 L150,100 L160,80 L175,120 L190,40 L210,160 L225,90 L235,100 L400,100 L410,80 L425,120 L440,40 L460,160 L475,90 L485,100 L700,100 L710,80 L725,120 L740,40 L760,160 L775,90 L785,100 L1000,100"></path>
+        </svg>
+        </div>
+        <div class="glass-card">
+            <header>
+                <div class="Header-det">
+                <h1>SCAN/<span class="Silver-line">Xray</span></h1>
+                <p class="subtitle">Advanced Radiographic Analyze System</p>
+                </div>
+            </header>
+            <hr class="silver-divider">
+
+            {% if report %}
+            <div class="report-text animate-fade-in">
+                <h3>Analysis Result</h3>
+                <div class="report-content">
+                    {{ report }}
+                </div>
+                <button onclick="window.print()" class="btn-secondary">Print Report</button>
+                <a href="/" class="btn-link">Analyze another Image</a>
+            {% else %}
+            <form method="POST" enctype="multipart/form-data" class="upload-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn-primary">Run Neural Analysis</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    </body>    
+</html>
